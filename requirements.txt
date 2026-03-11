@@ -2,3 +2,8 @@ Flask==2.3.3
 requests==2.31.0
 cloudscraper==1.2.71
 gunicorn==21.2.0
+uuid6==1.0.0
+python-dotenv==1.0.0
+flask-socketio==5.3.4
+python-engineio==4.5.1
+python-socketio==5.9.0

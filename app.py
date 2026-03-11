@@ -1,25 +1,118 @@
 from flask import Flask, request, render_template, Response, jsonify
-import ngl
+import ngl  # This will use our fixed ngl.py
 import random
 import string
 import json
 import time
-import threading
-import requests
-import hashlib
-import uuid
-from datetime import datetime
-from queue import Queue
-import logging
 import os
-import re
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'divine-powers-secret-key-2024')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'divine-powers-secret')
 
+# Use the simple function instead of the class (more reliable on Vercel)
+from ngl import send_ngl_message
+
+# Progress tracking (simple dictionary, no threads)
+current_progress = {
+    'sent': 0,
+    'total': 0,
+    'status': 'idle',
+    'message': ''
+}
+
+def random_text(length):
+    """Generate random text"""
+    letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
+    return ''.join(random.choice(letters) for _ in range(length))
+
+@app.route('/')
+def home():
+    return render_template('dashboard.html')
+
+@app.route('/ngl')
+def ngl_page():
+    return render_template('form.html')
+
+@app.route('/sms')
+def sms_page():
+    return render_template('index.html')
+
+@app.route('/submit', methods=['POST'])
+def submit():
+    global current_progress
+    
+    # Get form data
+    username = request.form.get('username')
+    mode = request.form.get('mode')
+    times = int(request.form.get('times', 1))
+    
+    # Validate
+    if not username:
+        return jsonify({'error': 'Username required'}), 400
+    
+    # Limit times for Vercel free tier (max 10 messages per request)
+    if times > 10:
+        times = 10
+    
+    # Update progress
+    current_progress['status'] = 'sending'
+    current_progress['total'] = times
+    current_progress['sent'] = 0
+    
+    # Send messages one by one (synchronously)
+    success_count = 0
+    
+    for i in range(times):
+        try:
+            # Generate message based on mode
+            if mode == "1":
+                length = int(request.form.get('length', 50))
+                message = random_text(length)
+            else:
+                message = request.form.get('text', 'Hello')
+                if len(message) > 200:  # Limit message length
+                    message = message[:200]
+            
+            # Send the message using our fixed function
+            if send_ngl_message(username, message):
+                success_count += 1
+            
+            # Update progress
+            current_progress['sent'] = i + 1
+            current_progress['message'] = f"Sent {i + 1} of {times}"
+            
+            # Small delay to avoid rate limiting
+            time.sleep(0.3)
+            
+        except Exception as e:
+            current_progress['status'] = 'error'
+            current_progress['message'] = f"Error: {str(e)}"
+            return jsonify({'error': str(e)}), 500
+    
+    # Complete
+    current_progress['status'] = 'completed'
+    current_progress['message'] = f"Successfully sent {success_count} of {times} messages"
+    
+    return jsonify({
+        'success': True, 
+        'message': current_progress['message'],
+        'sent': success_count
+    })
+
+@app.route('/progress')
+def progress():
+    """Get current progress"""
+    return jsonify(current_progress)
+
+@app.route('/status')
+def status():
+    """Status endpoint"""
+    return jsonify(current_progress)
+
+# Vercel handler
 def handler(request, context):
-    """Vercel serverless function handler"""
     return app(request.environ, lambda *args, **kwargs: None)
+
 
 # Disable unnecessary logging
 log = logging.getLogger('werkzeug')
