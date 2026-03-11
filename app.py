@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, Response, jsonify, session, send_from_directory
+from flask import Flask, request, render_template, Response, jsonify
 import ngl
 import random
 import string
@@ -8,8 +8,7 @@ import threading
 import requests
 import hashlib
 import uuid
-from datetime import datetime, timezone
-from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 from queue import Queue
 import logging
 import os
@@ -17,6 +16,10 @@ import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'divine-powers-secret-key-2024')
+
+def handler(request, context):
+    """Vercel serverless function handler"""
+    return app(request.environ, lambda *args, **kwargs: None)
 
 # Disable unnecessary logging
 log = logging.getLogger('werkzeug')
