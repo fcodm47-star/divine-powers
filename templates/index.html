@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Divine Powers - SMS Bomb</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 40px 25px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar:hover {
+            transform: translateY(-50%) scale(1.02);
+            box-shadow: 0 40px 80px rgba(255, 215, 0, 0.2), 0 0 0 2px rgba(255, 215, 0, 0.3);
+        }
+
+        .sidebar-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .sidebar-header i {
+            font-size: 4rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+        }
+
+        .sidebar-header h3 {
+            font-weight: 800;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .sidebar-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .developer-credit {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 215, 0, 0.1);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .developer-credit i {
+            font-size: 0.85rem;
+            margin-right: 5px;
+            -webkit-text-fill-color: #ffd700;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            margin-bottom: 15px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 25px;
+            border-radius: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            background: transparent;
+            border: 1px solid transparent;
+        }
+
+        .nav-link i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            color: #ffd700;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            transform: translateX(10px);
+        }
+
+        .nav-link:hover i {
+            color: #ffd700;
+            transform: scale(1.1);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 180, 70, 0.2) 100%);
+            border-color: #ffd700;
+            color: #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .nav-link.active i {
+            color: #ffd700;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 360px;
+            padding: 40px;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header-icon {
+            font-size: 3.5rem;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .header-subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+        }
+
+        .form-label i {
+            margin-right: 8px;
+            color: #ffd700;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .form-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        /* Service List */
+        .service-list {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .service-list h6 {
+            color: #ffd700;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .service-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .service-badge:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 215, 0, 0.2);
+            border-color: #ffd700;
+            box-shadow: 0 5px 10px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+            color: #1a1a2e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+            color: #1a1a2e;
+        }
+
+        .btn-outline-danger {
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid #f56565;
+            color: #f56565;
+            background: transparent;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-outline-danger:hover {
+            background: #f56565;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(245, 101, 101, 0.3);
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #ffd700;
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .stat-details {
+            flex: 1;
+        }
+
+        .stat-label {
+            display: block;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .text-success {
+            color: #48bb78 !important;
+        }
+
+        .text-danger {
+            color: #f56565 !important;
+        }
+
+        .text-info {
+            color: #ffd700 !important;
+        }
+
+        /* Progress Section */
+        .progress-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .progress-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+        }
+
+        .progress-value {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .progress {
+            height: 10px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #ffd700 0%, #ffb347 100%);
+            border-radius: 30px;
+        }
+
+        /* Worker Cards */
+        .worker-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .worker-name {
+            font-weight: 600;
+            color: #ffd700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .worker-badge {
+            font-size: 0.85rem;
+            color: #48bb78;
+            font-weight: 500;
+        }
+
+        .worker-queue {
+            padding: 5px 12px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        /* Logs Panel */
+        .logs-panel {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 30px;
+            padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .panel-title {
+            color: #ffd700;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logs-count {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: normal;
+        }
+
+        .logs-container {
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+        }
+
+        .log-entry {
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .log-info {
+            background: rgba(255, 215, 0, 0.1);
+            color: #ffd700;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .log-success {
+            background: rgba(72, 187, 120, 0.1);
+            color: #48bb78;
+            border: 1px solid rgba(72, 187, 120, 0.2);
+        }
+
+        .log-error {
+            background: rgba(245, 101, 101, 0.1);
+            color: #f56565;
+            border: 1px solid rgba(245, 101, 101, 0.2);
+        }
+
+        .log-time {
+            font-weight: 600;
+            color: inherit;
+            opacity: 0.8;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .footer i {
+            color: #ffd700;
+            margin: 0 3px;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Divine glow effect */
+        .divine-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                width: 100%;
+                border-radius: 30px;
+                margin: 20px;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .nav-link:hover {
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-card {
+                padding: 20px;
+                border-radius: 30px;
+            }
+
+            .header-title {
+                font-size: 2rem;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .progress-bar-animated {
+            animation: progress-bar-stripes 1s linear infinite;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #48bb78;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="divine-glow"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <i class="bi bi-stars"></i>
+            <h3>Divine Powers</h3>
+            <p>SMS / NGL SPAMMER</p>
+            <div class="developer-credit">
+                <i class="bi bi-person-badge"></i> Developer: @POSHYCAT
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="/" class="nav-link">
+                    <i class="bi bi-house-door"></i>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/ngl" class="nav-link">
+                    <i class="bi bi-paper-plane"></i>
+                    NGL Spammer
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/sms" class="nav-link active">
+                    <i class="bi bi-chat-dots"></i>
+                    SMS Bomb
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="content-card">
+            <div class="header">
+                <i class="bi bi-chat-dots header-icon"></i>
+                <h1 class="header-title">SMS Bomb</h1>
+                <p class="header-subtitle">Multi-service SMS bombing with divine power</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5">
+                    <!-- Control Panel -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="bi bi-phone"></i> Target Number
+                        </label>
+                        <input type="text" class="form-input" id="phoneNumber" 
+                               placeholder="09123456789 or 9123456789">
+                        <div class="form-text">Philippine number format (e.g., 09123456789)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="bi bi-layers"></i> Number of Batches
+                        </label>
+                        <input type="number" class="form-input" id="batches" 
+                               min="1" max="100" value="1">
+                        <div class="form-text">1 batch = 15 services (1-100)</div>
+                    </div>
+
+                    <div class="service-list">
+                        <h6><i class="bi bi-grid-3x3-gap-fill me-2"></i>Divine Services (15)</h6>
+                        <div class="row g-2">
+                            <div class="col-6"><span class="service-badge">BOMB OTP</span></div>
+                            <div class="col-6"><span class="service-badge">MWELL</span></div>
+                            <div class="col-6"><span class="service-badge">EZLOAN</span></div>
+                            <div class="col-6"><span class="service-badge">XPRESS PH</span></div>
+                            <div class="col-6"><span class="service-badge">ABENSON</span></div>
+                            <div class="col-6"><span class="service-badge">EXCELLENT</span></div>
+                            <div class="col-6"><span class="service-badge">BISTRO</span></div>
+                            <div class="col-6"><span class="service-badge">BAYAD</span></div>
+                            <div class="col-6"><span class="service-badge">LBC</span></div>
+                            <div class="col-6"><span class="service-badge">PICKUP</span></div>
+                            <div class="col-6"><span class="service-badge">HONEY LOAN</span></div>
+                            <div class="col-6"><span class="service-badge">KUMU</span></div>
+                            <div class="col-6"><span class="service-badge">S5.COM</span></div>
+                            <div class="col-6"><span class="service-badge">CASHALO</span></div>
+                            <div class="col-6"><span class="service-badge">PEXX</span></div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" id="startBtn" onclick="startAttack()">
+                            <i class="bi bi-play-fill me-2"></i>Launch Divine Attack
+                        </button>
+                        <button class="btn btn-outline-danger" id="stopBtn" onclick="stopAttack()" disabled>
+                            <i class="bi bi-stop-fill me-2"></i>Stop Attack
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <!-- Statistics -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="bi bi-check-circle"></i></div>
+                                <div class="stat-details">
+                                    <span class="stat-label">Successful</span>
+                                    <span class="stat-value text-success" id="successCount">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="bi bi-x-circle"></i></div>
+                                <div class="stat-details">
+                                    <span class="stat-label">Failed</span>
+                                    <span class="stat-value text-danger" id="failCount">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="bi bi-graph-up"></i></div>
+                                <div class="stat-details">
+                                    <span class="stat-label">Divine Rate</span>
+                                    <span class="stat-value text-info" id="successRate">0%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress -->
+                    <div class="progress-section mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="progress-label">Divine Progress</span>
+                            <span class="progress-value" id="progressText">0/0 Batches</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 id="progressBar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Worker Status -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <div class="worker-card">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="worker-name">MWELL Worker</span>
+                                        <span class="worker-badge" id="mwellStatus">● Divine Active</span>
+                                    </div>
+                                    <span class="worker-queue" id="mwellQueue">0 pending</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="worker-card">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <span class="worker-name">PEXX Worker</span>
+                                        <span class="worker-badge" id="pexxStatus">● Divine Active</span>
+                                    </div>
+                                    <span class="worker-queue" id="pexxQueue">0 pending</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logs -->
+                    <div class="logs-panel">
+                        <div class="panel-title mb-3">
+                            <span><i class="bi bi-terminal me-2"></i>Divine Logs</span>
+                            <span class="logs-count" id="logCount">0 events</span>
+                        </div>
+                        <div class="logs-container" id="logs">
+                            <div class="log-entry log-info">
+                                <span class="log-time">[System]</span>
+                                Divine Powers activated - Ready to start attack
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>
+                    <i class="bi bi-shield-shaded"></i>
+                    Educational Purpose Only · Use Responsibly · Developed with 
+                    <i class="bi bi-heart-fill"></i> by <a href="#" target="_blank">@POSHYCAT</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const socket = io({
+            transports: ['polling'], // For Vercel compatibility
+            upgrade: false
+        });
+        let isRunning = false;
+        let logs = [];
+
+        // Socket event handlers
+        socket.on('connect', () => {
+            addLog('Divine System', 'Connected to divine server', 'info');
+        });
+
+        socket.on('worker_result', (data) => {
+            const status = data.success ? 'success' : 'error';
+            addLog(data.worker, `Batch ${data.batch}: ${data.message}`, status);
+        });
+
+        socket.on('service_result', (data) => {
+            const status = data.success ? 'success' : 'error';
+            addLog(data.service, `Batch ${data.batch}: ${data.message}`, status);
+        });
+
+        socket.on('batch_start', (data) => {
+            addLog('Divine System', `Starting divine batch ${data.batch} of ${data.total}`, 'info');
+            updateProgress(data.batch, data.total);
+        });
+
+        socket.on('stats_update', (stats) => {
+            updateStats(stats);
+        });
+
+        socket.on('attack_complete', (stats) => {
+            addLog('Divine System', `Divine attack completed! Success: ${stats.success}, Failed: ${stats.fail}`, 'success');
+            isRunning = false;
+            updateButtons();
+        });
+
+        socket.on('attack_error', (data) => {
+            addLog('Divine System', `Error: ${data.error}`, 'error');
+            isRunning = false;
+            updateButtons();
+        });
+
+        // Functions
+        function addLog(source, message, type = 'info') {
+            const time = new Date().toLocaleTimeString();
+            const logEntry = {
+                source,
+                message,
+                type,
+                time
+            };
+            
+            logs.unshift(logEntry);
+            if (logs.length > 50) logs.pop();
+            
+            updateLogs();
+            document.getElementById('logCount').textContent = `${logs.length} divine events`;
+        }
+
+        function updateLogs() {
+            const container = document.getElementById('logs');
+            container.innerHTML = logs.map(log => `
+                <div class="log-entry log-${log.type}">
+                    <span class="log-time">[${log.time}]</span>
+                    <span class="log-source">${log.source}:</span>
+                    <span class="log-message">${log.message}</span>
+                </div>
+            `).join('');
+        }
+
+        function updateStats(stats) {
+            document.getElementById('successCount').textContent = stats.success;
+            document.getElementById('failCount').textContent = stats.fail;
+            
+            const total = stats.success + stats.fail;
+            const rate = total > 0 ? Math.round((stats.success / total) * 100) : 0;
+            document.getElementById('successRate').textContent = rate + '%';
+        }
+
+        function updateProgress(current, total) {
+            const percentage = (current / total) * 100;
+            document.getElementById('progressBar').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${current}/${total} Batches`;
+        }
+
+        function updateButtons() {
+            document.getElementById('startBtn').disabled = isRunning;
+            document.getElementById('stopBtn').disabled = !isRunning;
+        }
+
+        function startAttack() {
+            const phone = document.getElementById('phoneNumber').value;
+            const batches = document.getElementById('batches').value;
+
+            if (!phone) {
+                addLog('Divine System', 'Please enter a phone number', 'error');
+                return;
+            }
+
+            fetch('/api/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, batches: parseInt(batches) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    isRunning = true;
+                    updateButtons();
+                    addLog('Divine System', data.message, 'info');
+                } else {
+                    addLog('Divine System', data.error, 'error');
+                }
+            });
+        }
+
+        function stopAttack() {
+            fetch('/api/stop', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    addLog('Divine System', 'Divine attack stopped', 'info');
+                }
+            });
+        }
+
+        // Poll for status updates
+        setInterval(() => {
+            if (isRunning) {
+                fetch('/api/status')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('mwellQueue').textContent = data.mwell_pending + ' pending';
+                    document.getElementById('pexxQueue').textContent = data.pexx_pending + ' pending';
+                });
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
